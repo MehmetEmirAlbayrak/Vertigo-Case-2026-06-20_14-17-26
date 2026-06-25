@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
 
 public class SpinScreenView : MonoBehaviour
 {
@@ -19,7 +18,6 @@ public class SpinScreenView : MonoBehaviour
 
     [SerializeField] private Button leaveButton;
 
-    [SerializeField] private TextMeshProUGUI zoneText;
 
 
 
@@ -29,8 +27,6 @@ public class SpinScreenView : MonoBehaviour
             rewardPanel = transform.Find("RewardPanel").gameObject;
         if (rewardPrefab == null)
             rewardPrefab = Resources.Load<GameObject>("Prefabs/Reward");
-        if (zoneText == null)
-            zoneText = transform.Find("Zone_Text").GetComponent<TextMeshProUGUI>();
         if (leaveButton == null)
             leaveButton = transform.Find("Leave_Button").GetComponent<Button>();
 
@@ -39,10 +35,11 @@ public class SpinScreenView : MonoBehaviour
 
     private void Awake()
     {
-        if(leaveButton != null)
+        if (leaveButton != null)
         {
-            leaveButton.onClick.AddListener(OnLeaveClicked);
+            leaveButton.onClick.AddListener(LeaveClicked);
         }
+
     }
 
     private void OnChanged()
@@ -55,36 +52,44 @@ public class SpinScreenView : MonoBehaviour
         foreach (var rew in wallet.GetRewards())
         {
             var reward = Instantiate(rewardPrefab, rewardPanel.transform);
-
             reward.GetComponentInChildren<TextMeshProUGUI>().text = "x" + rew.amount.ToString();
-
             reward.GetComponentInChildren<Image>().sprite = rew.reward.icon;
         }
 
 
     }
 
-    private void OnSpinCompleted(Reward reward)
+   
+    private void OnSpinStarted()
     {
-        if (reward == null)
-            return;
+        leaveButton.gameObject.SetActive(false);
+    }
 
-        
+    private void OnZoneChanged(int zone)
+    {
 
+        leaveButton.gameObject.SetActive(ZoneRules.GetWheelTierForZone(zone) != WheelTier.Bronze);
     }
 
     private void OnEnable()
     {
+        wheel.OnSpinStarted += OnSpinStarted;
         wallet.OnChanged += OnChanged;
+        zoneManager.OnZoneChanged += OnZoneChanged;
     }
 
     private void OnDisable()
     {
+        wheel.OnSpinStarted -= OnSpinStarted;
         wallet.OnChanged -= OnChanged;
+        zoneManager.OnZoneChanged -= OnZoneChanged;
     }
 
-    private void OnLeaveClicked()
+    public void LeaveClicked()
     {
-        print("Leave button clicked. Implement leaving logic here.");
+        wallet.ResetRewards();
+        zoneManager.ResetToFirstZone();
+        leaveButton.gameObject.SetActive(false);
     }
+
 }

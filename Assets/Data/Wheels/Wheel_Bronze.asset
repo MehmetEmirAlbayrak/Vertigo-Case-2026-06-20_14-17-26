@@ -15,20 +15,20 @@ MonoBehaviour:
   tier: 0
   slots:
   - reward: {fileID: 11400000, guid: fc60f3bc76fa83b4d888f51a3826f49c, type: 2}
-    weight: 0
+    weight: 7
   - reward: {fileID: 11400000, guid: 20ed19680adcb614bbdf73cebfc041c5, type: 2}
-    weight: 5
+    weight: 1
   - reward: {fileID: 11400000, guid: 90ff7fcaca0c9bc49ab68bfc6b0aa80a, type: 2}
     weight: 0
   - reward: {fileID: 11400000, guid: f360dfbe9646db04d9c7e61ac6349aba, type: 2}
-    weight: 0
+    weight: 8
   - reward: {fileID: 11400000, guid: f0c585cac81cb3249858e4d9e9b103e3, type: 2}
     weight: 5
   - reward: {fileID: 11400000, guid: bf581a5b862b1ed40a70de96bbe275d1, type: 2}
-    weight: 0
+    weight: 7
   - reward: {fileID: 11400000, guid: 9cba0a2243d1f034e92200f7ca79e4c3, type: 2}
-    weight: 0
+    weight: 12
   - reward: {fileID: 11400000, guid: 4d857425c21a81b46b186f387da8f022, type: 2}
-    weight: 0
+    weight: 3
   baseSprite: {fileID: 21300000, guid: 7d35b3494ffe6ca4bb5efcf2e5a99ceb, type: 3}
   indicatorSprite: {fileID: 21300000, guid: b5033eabc94552341a2cb13297ee9337, type: 3}

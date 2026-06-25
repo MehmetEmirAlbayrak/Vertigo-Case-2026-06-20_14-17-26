@@ -1,18 +1,38 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BombPopupView : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Button giveUpButton;
+
+    [SerializeField] private Button reviveButton;
+
+    public event Action OnGiveUp;
+
+    public event Action OnRevive;
+
+    private void Awake()
     {
-        
+        giveUpButton.onClick.AddListener(OnGiveUpClicked);
+
+        reviveButton.onClick.AddListener(OnReviveClicked);
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnGiveUpClicked()
     {
-        
+        OnGiveUp?.Invoke();
+        gameObject.SetActive(false);
+
+    }
+
+    private void OnReviveClicked()
+    {
+        OnRevive?.Invoke();
+        gameObject.SetActive(false);
+
     }
 }

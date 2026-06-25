@@ -10,6 +10,8 @@ public class GameLoopController : MonoBehaviour
 
     [SerializeField] private ZoneManager zoneManager;
 
+    [SerializeField] private BombController bombController;
+
     private void OnRewardWon(Reward reward)
     {
         if (reward == null) return;
@@ -17,8 +19,7 @@ public class GameLoopController : MonoBehaviour
 
         if (reward.rewardType == RewardType.Bomb)
         {
-            wallet.ResetRewards();
-            zoneManager.ResetToFirstZone();
+            bombController.ShowBombPopup();
         }
 
         else
@@ -33,8 +34,6 @@ public class GameLoopController : MonoBehaviour
     private void OnEnable()
     {
         wheel.OnSpinCompleted += OnRewardWon;
-        print("GameLoopController enabled and subscribed to wheel events.");
-        print("Current rewards in wallet: " + wallet.GetRewards());
     }
 
     private void OnDisable()

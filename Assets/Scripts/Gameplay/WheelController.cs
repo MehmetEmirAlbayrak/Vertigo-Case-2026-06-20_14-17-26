@@ -1,7 +1,9 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System;                   
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class WheelController : MonoBehaviour
 {
@@ -21,13 +23,16 @@ public class WheelController : MonoBehaviour
     [SerializeField] private AnimationCurve ease = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [SerializeField] private float indicatorAngle = 90f;
 
+    public event Action OnSpinStarted;
     public event Action<Reward> OnSpinCompleted;
 
+    private ISlotSelector selector;
     private float[] slotBaseAngles;
     private float currentZ;
     private bool isSpinning;
     private Sprite baseImage;
     private Sprite indicatorImage;
+    private int currentZone;
     public bool IsSpinning => isSpinning;
 
     private void OnValidate()
@@ -51,15 +56,16 @@ public class WheelController : MonoBehaviour
         }
         currentZ = wheel.localEulerAngles.z;
 
+        selector = new WeightedSlotSelector(() => UnityEngine.Random.value);
+
         if (config != null)
             BuildWheel();
-
-
     }
 
-    public void Configure(WheelConfig newConfig)
+    public void Configure(WheelConfig newConfig, int zone)
     {
         config = newConfig;
+        currentZone = zone;
         BuildWheel();
         wheelBase.sprite = newConfig.baseSprite;
         _indicator.sprite = newConfig.indicatorSprite;
@@ -75,34 +81,29 @@ public class WheelController : MonoBehaviour
             Image img = c.GetComponent<Image>();
             img.sprite = config.slots[i].reward.icon;
             img.preserveAspect = true;
+
+            var slotReward = config.slots[i].reward;
+            var label = c.GetComponentInChildren<TextMeshProUGUI>();
+
+            if (slotReward.rewardType == RewardType.Bomb)
+                label.text = "";
+            else
+                label.text = "x" + RewardScaler.ScaleReward(slotReward.baseAmount, currentZone);
         }
+
+
     }
 
     public void Spin()
     {
-
         if (isSpinning || config == null) return;
-        int index = PickWeightedIndex();
+
+        spinButton.interactable = false;
+        OnSpinStarted?.Invoke();
+
+        var weights = config.slots.ConvertAll(s => s.weight);
+        int index = selector.Select(weights);
         StartCoroutine(SpinRoutine(index));
-    }
-
-    public int PickWeightedIndex()
-    {
-        float total = 0f;
-        foreach (var slot in config.slots)
-            total += slot.weight;
-
-        if (total <= 0f) return 0;
-
-        float r = UnityEngine.Random.Range(0f, total);
-        float cum = 0f;
-        for (int i = 0; i < config.slots.Count; i++)
-        {
-            cum += config.slots[i].weight;
-            if (r <= cum) return i;
-
-        }
-        return config.slots.Count - 1;
     }
 
     private IEnumerator SpinRoutine(int index)
@@ -112,10 +113,6 @@ public class WheelController : MonoBehaviour
         float a_i     = slotBaseAngles[index];
         float delta   = Mathf.Repeat(indicatorAngle - a_i - currentZ, 360f);
         float targetZ = currentZ + 360f * fullSpins + delta;
-
-        //wheel.DOLocalRotate(new Vector3(0, 0, targetZ), spinDuration, RotateMode.FastBeyond360)
-        // .SetEase(Ease.OutCubic).OnComplete(() => Finish(index));   // then `yield break;`
-
 
         float startZ = currentZ;
         float elapsed = 0f;
@@ -134,6 +131,8 @@ public class WheelController : MonoBehaviour
         wheel.localEulerAngles = new Vector3(0f, 0f, targetZ);
         currentZ = Mathf.Repeat(targetZ, 360f);
         isSpinning = false;
+
+        spinButton.interactable = true;
         OnSpinCompleted?.Invoke(config.slots[index].reward);     
         
 

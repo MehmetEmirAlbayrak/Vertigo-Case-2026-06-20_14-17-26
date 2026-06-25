@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ZoneManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class ZoneManager : MonoBehaviour
     [SerializeField] private WheelConfig silver;
     [SerializeField] private WheelConfig golden;
     [SerializeField] private WheelController wheel;
+
+    public event Action<int> OnZoneChanged;
 
     public int CurrentZone => currentZone;
 
@@ -36,16 +39,17 @@ public class ZoneManager : MonoBehaviour
         switch (ZoneRules.GetWheelTierForZone(currentZone))
         {
             case WheelTier.Bronze:
-                wheel.Configure(bronze);
+                wheel.Configure(bronze,currentZone);
                 break;
             case WheelTier.Silver:
-                wheel.Configure(silver);
+                wheel.Configure(silver,currentZone);
                 break;
             case WheelTier.Golden:
-                wheel.Configure(golden);
+                wheel.Configure(golden, currentZone);
                 break;
         }
 
-        print("Advanced to Zone " + currentZone + " with " + ZoneRules.GetWheelTierForZone(currentZone) + " wheel.");
+        OnZoneChanged?.Invoke(currentZone);
     }
+
 }
