@@ -14,21 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tier: 1
   slots:
-  - reward: {fileID: 11400000, guid: 73ab5f4671aa50c40bcbc2a14ca887c1, type: 2}
-    weight: 0
   - reward: {fileID: 11400000, guid: f0c585cac81cb3249858e4d9e9b103e3, type: 2}
-    weight: 0
+    weight: 25
+    amount: 10000
   - reward: {fileID: 11400000, guid: 9dbd23af4172be744801408e084f0c6a, type: 2}
-    weight: 0
+    weight: 12
+    amount: 1
+  - reward: {fileID: 11400000, guid: 76ce543337cc0474ca621c36df2e23a5, type: 2}
+    weight: 6
+    amount: 2
   - reward: {fileID: 11400000, guid: bf581a5b862b1ed40a70de96bbe275d1, type: 2}
-    weight: 0
+    weight: 25
+    amount: 8
   - reward: {fileID: 11400000, guid: 0347f8f886f63584db70360fa91e30f3, type: 2}
-    weight: 0
-  - reward: {fileID: 11400000, guid: 4bd9e8083d61af040815526d5b53221e, type: 2}
-    weight: 0
+    weight: 3
+    amount: 1
+  - reward: {fileID: 11400000, guid: 73ab5f4671aa50c40bcbc2a14ca887c1, type: 2}
+    weight: 6
+    amount: 1
   - reward: {fileID: 11400000, guid: 7cb3be55376a9a244851e21d229edaad, type: 2}
-    weight: 0
+    weight: 4
+    amount: 1
   - reward: {fileID: 11400000, guid: 35661b0b351a671449b384a4011f717e, type: 2}
-    weight: 0
+    weight: 12
+    amount: 1
   baseSprite: {fileID: 21300000, guid: cab9babf4469da242b607b63ce49eefe, type: 3}
   indicatorSprite: {fileID: 21300000, guid: 544b5b65bbc72884e9767c8bbaad1104, type: 3}

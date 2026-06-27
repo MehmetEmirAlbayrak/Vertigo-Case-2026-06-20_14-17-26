@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,20 +19,17 @@ public class SpinScreenView : MonoBehaviour
 
     [SerializeField] private Button leaveButton;
 
-
-
+    public event Action OnLeaveRequested;
 
     private void OnValidate()
     {
-        if (rewardPanel == null)
-            rewardPanel = transform.Find("RewardPanel").gameObject;
-        if (rewardPrefab == null)
-            rewardPrefab = Resources.Load<GameObject>("Prefabs/Reward");
         if (leaveButton == null)
-            leaveButton = transform.Find("Leave_Button").GetComponent<Button>();
-
+        {
+            Transform t = transform.Find("ui_button_leave");
+            if (t != null)
+                leaveButton = t.GetComponent<Button>();
+        }
     }
-
 
     private void Awake()
     {
@@ -52,11 +50,9 @@ public class SpinScreenView : MonoBehaviour
         foreach (var rew in wallet.GetRewards())
         {
             var reward = Instantiate(rewardPrefab, rewardPanel.transform);
-            reward.GetComponentInChildren<TextMeshProUGUI>().text = "x" + rew.amount.ToString();
+            reward.GetComponentInChildren<TextMeshProUGUI>().text = "x" + AmountFormatter.Format(rew.amount);
             reward.GetComponentInChildren<Image>().sprite = rew.reward.icon;
         }
-
-
     }
 
    
@@ -67,7 +63,6 @@ public class SpinScreenView : MonoBehaviour
 
     private void OnZoneChanged(int zone)
     {
-
         leaveButton.gameObject.SetActive(ZoneRules.GetWheelTierForZone(zone) != WheelTier.Bronze);
     }
 
@@ -87,9 +82,7 @@ public class SpinScreenView : MonoBehaviour
 
     public void LeaveClicked()
     {
-        wallet.ResetRewards();
-        zoneManager.ResetToFirstZone();
-        leaveButton.gameObject.SetActive(false);
+        OnLeaveRequested?.Invoke();
     }
 
 }

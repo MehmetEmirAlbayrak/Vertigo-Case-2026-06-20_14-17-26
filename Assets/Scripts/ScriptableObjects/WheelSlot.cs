@@ -4,9 +4,11 @@ using UnityEngine;
 
 [System.Serializable]
 
-public class WheelSlot 
+public class WheelSlot
 {
     public Reward reward;
 
     public float weight;
+
+    public int amount;
 }

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52d38ada525346149a5fb0faaabf3288, type: 3}
-  m_Name: Reward_Silver_Chest
+  m_Name: Reward_Health_Neuro
   m_EditorClassIdentifier: 
-  rewardName: Silver Chest
-  icon: {fileID: 21300000, guid: 3e9975db677e2b447be38590b7611ef8, type: 3}
+  rewardName: Health Shot
+  icon: {fileID: 21300000, guid: ef798b2ead153bc41b08c96ade0c9aab, type: 3}
   rewardType: 1
   baseAmount: 1

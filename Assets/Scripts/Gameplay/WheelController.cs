@@ -24,14 +24,12 @@ public class WheelController : MonoBehaviour
     [SerializeField] private float indicatorAngle = 90f;
 
     public event Action OnSpinStarted;
-    public event Action<Reward> OnSpinCompleted;
+    public event Action<Reward, int> OnSpinCompleted;
 
     private ISlotSelector selector;
     private float[] slotBaseAngles;
     private float currentZ;
     private bool isSpinning;
-    private Sprite baseImage;
-    private Sprite indicatorImage;
     private int currentZone;
     public bool IsSpinning => isSpinning;
 
@@ -39,12 +37,16 @@ public class WheelController : MonoBehaviour
     {
         if (wheel == null)
         {
-            wheel = transform.Find("Wheel") as RectTransform;
+            Transform t = transform.Find("ui_image_wheel");
+            if (t != null)
+                wheel = t as RectTransform;
         }
 
         if (spinButton == null)
         {
-            spinButton = GetComponentInChildren<Button>(true);
+            Transform t = transform.Find("ui_button_spin");
+            if (t != null)
+                spinButton = t.GetComponent<Button>();
         }
     }
 
@@ -88,7 +90,7 @@ public class WheelController : MonoBehaviour
             if (slotReward.rewardType == RewardType.Bomb)
                 label.text = "";
             else
-                label.text = "x" + RewardScaler.ScaleReward(slotReward.baseAmount, currentZone);
+                label.text = "x" + AmountFormatter.Format(RewardScaler.ScaleReward(config.slots[i].amount, currentZone));
         }
 
 
@@ -133,9 +135,6 @@ public class WheelController : MonoBehaviour
         isSpinning = false;
 
         spinButton.interactable = true;
-        OnSpinCompleted?.Invoke(config.slots[index].reward);     
-        
-
-        
+        OnSpinCompleted?.Invoke(config.slots[index].reward, config.slots[index].amount);    
     }
 }

@@ -12,6 +12,10 @@ public class BombController : MonoBehaviour
 
     [SerializeField] private RewardWallet wallet;
 
+    [SerializeField] private CurrencyWallet currency;
+
+    [SerializeField] private int reviveCost;
+
     private void HandleGiveUp()
     {
         wallet.ResetRewards();
@@ -20,6 +24,7 @@ public class BombController : MonoBehaviour
 
     private void HandleRevive()
     {
+        currency.TrySpend(reviveCost);
     }
 
     private void OnEnable()
@@ -37,5 +42,9 @@ public class BombController : MonoBehaviour
     public void ShowBombPopup()
     {
         bombPanel.SetActive(true);
+        bombPopupView.SetReviveCost(reviveCost);
+        bombPopupView.SetReviveAffordable(currency.Current >= reviveCost);
     }
+
+   
 }

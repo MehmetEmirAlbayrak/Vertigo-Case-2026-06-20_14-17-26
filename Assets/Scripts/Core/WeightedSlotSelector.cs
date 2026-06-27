@@ -20,7 +20,7 @@ public class WeightedSlotSelector : ISlotSelector
             totalWeight += weight;
         }
 
-        if(totalWeight < 0f) 
+        if(totalWeight <= 0f)
             return 0;
 
         float randomValue = _rng() * totalWeight;

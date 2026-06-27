@@ -12,7 +12,13 @@ public class GameLoopController : MonoBehaviour
 
     [SerializeField] private BombController bombController;
 
-    private void OnRewardWon(Reward reward)
+    [SerializeField] private SpinScreenView spinScreen;
+
+    [SerializeField] private CurrencyWallet currency;
+
+    [SerializeField] private Reward goldReward;
+
+    private void OnRewardWon(Reward reward, int baseAmount)
     {
         if (reward == null) return;
 
@@ -24,20 +30,34 @@ public class GameLoopController : MonoBehaviour
 
         else
         {
-            int amount = RewardScaler.ScaleReward(reward.baseAmount, zoneManager.CurrentZone);
+            int amount = RewardScaler.ScaleReward(baseAmount, zoneManager.CurrentZone);
             wallet.AddReward(reward,amount);
             zoneManager.AdvanceToNextZone();
         }
     }
 
 
+    private void Collect()
+    {
+        foreach (var entry in wallet.GetRewards())
+        {
+            if (entry.reward == goldReward)
+                currency.Add(entry.amount);
+        }
+
+        wallet.ResetRewards();
+        zoneManager.ResetToFirstZone();
+    }
+
     private void OnEnable()
     {
         wheel.OnSpinCompleted += OnRewardWon;
+        spinScreen.OnLeaveRequested += Collect;
     }
 
     private void OnDisable()
     {
         wheel.OnSpinCompleted -= OnRewardWon;
+        spinScreen.OnLeaveRequested -= Collect;
     }
 }

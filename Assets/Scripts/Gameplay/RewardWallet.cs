@@ -15,9 +15,10 @@ public class RewardWallet : MonoBehaviour
 {
 
     public event Action OnChanged;
-    
-    
-    public List<CollectedReward> entries;
+
+
+    [SerializeField] private List<CollectedReward> entries;
+
 
     public void AddReward(Reward reward, int amount)
     {

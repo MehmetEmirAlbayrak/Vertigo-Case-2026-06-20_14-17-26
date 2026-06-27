@@ -13,6 +13,30 @@ MonoBehaviour:
   m_Name: Wheel_Gold
   m_EditorClassIdentifier: 
   tier: 2
-  slots: []
+  slots:
+  - reward: {fileID: 11400000, guid: 73ab5f4671aa50c40bcbc2a14ca887c1, type: 2}
+    weight: 5
+    amount: 1
+  - reward: {fileID: 11400000, guid: 7b2379cf68f1d0b4c99f169963e06785, type: 2}
+    weight: 3
+    amount: 1
+  - reward: {fileID: 11400000, guid: 4d857425c21a81b46b186f387da8f022, type: 2}
+    weight: 5
+    amount: 2
+  - reward: {fileID: 11400000, guid: b7b59e2b4bf86fc4dbfcb284381ab497, type: 2}
+    weight: 1
+    amount: 1
+  - reward: {fileID: 11400000, guid: 9e377bfb1b5db4a4c8703f7117cf73bc, type: 2}
+    weight: 12
+    amount: 2
+  - reward: {fileID: 11400000, guid: f0c585cac81cb3249858e4d9e9b103e3, type: 2}
+    weight: 20
+    amount: 500000
+  - reward: {fileID: 11400000, guid: 0347f8f886f63584db70360fa91e30f3, type: 2}
+    weight: 8
+    amount: 1
+  - reward: {fileID: 11400000, guid: fc60f3bc76fa83b4d888f51a3826f49c, type: 2}
+    weight: 1
+    amount: 1
   baseSprite: {fileID: 21300000, guid: b0a6ca7a017f1fc48aa7d09ddbc7d90a, type: 3}
   indicatorSprite: {fileID: 21300000, guid: 25b39a35192937e439e1d1c83f118a65, type: 3}
