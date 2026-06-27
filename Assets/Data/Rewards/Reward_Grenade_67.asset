@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52d38ada525346149a5fb0faaabf3288, type: 3}
-  m_Name: Reward_Grande_67
+  m_Name: Reward_Grenade_67
   m_EditorClassIdentifier: 
   rewardName: Grenade M67
   icon: {fileID: 21300000, guid: b4f2809cee0de584aa0a4d7004761503, type: 3}
